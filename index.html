@@ -1,0 +1,39 @@
+<!doctype html><html lang="ar" dir="rtl"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>اختبار وهم الإتقان</title><style>
+*{box-sizing:border-box} body{margin:0;background:#edf3fb;color:#142343;font:18px/1.8 system-ui,Arial,sans-serif}main{max-width:780px;margin:4vh auto;padding:clamp(20px,5vw,46px);background:white;border:1px solid #dce5ef;border-radius:24px}h1{line-height:1.35;margin:0 0 18px;font-size:clamp(27px,5vw,43px)}h2{line-height:1.5}p{margin:12px 0 22px}button,select{font:inherit;border-radius:12px;padding:8px 15px}button{border:0;background:#056652;color:white;font-weight:700;cursor:pointer;margin:3px}select{background:white;border:1px solid #a8bacd}fieldset{margin:16px 0;border:1px solid #ccd9e8;border-radius:12px;padding:10px 14px}label.option{display:block;padding:3px 6px}label.option:hover{background:#edf8f4}.result{padding:14px;background:#def7ed;border-radius:14px;font-weight:700}button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #3667ba}li{margin-bottom:7px}</style>
+<main><h1>فاهم الدرس أم حافظ شكله؟</h1><div id="panel"></div></main><script>
+const rounds=[["التعلم المتباعد", "التعلم المتباعد يعني توزيع وقت المراجعة على أكثر من جلسة تفصل بينها فترات زمنية. إذا توفرت ساعة واحدة لمراجعة موضوع، يمكن تقسيمها إلى ثلاث جلسات من عشرين دقيقة عبر ثلاثة أيام. عند بداية كل جلسة، يحاول الطالب كتابة أهم أفكار الجلسة السابقة من الذاكرة، ثم يراجع ما فاته. يسجل الطالب الأخطاء ليركز عليها في الجلسة اللاحقة. ويمكنه إجراء اختبار قصير دون ملاحظات بعد يوم من آخر جلسة للتحقق مما بقي في ذاكرته.", [["ما المقصود بالتعلم المتباعد؟", "توزيع المراجعة على جلسات", "جمع المراجعة في جلسة", "زيادة عدد صفحات الملخص", 0], ["كيف وزع المثال ساعة المراجعة؟", "جلستان من 30 دقيقة في ليلة واحدة", "ثلاث جلسات من 20 دقيقة عبر ثلاثة أيام", "ست جلسات متتابعة من 10 دقائق", 1], ["ماذا يفعل الطالب في بداية الجلسة؟", "يبدأ بنسخ الملخص", "يعيد قراءة الفصل كله", "يكتب أهم الأفكار من الذاكرة", 2], ["لماذا يسجل أخطاءه؟", "ليحدد ما يراجعه في الجلسة التالية", "ليزيد عدد الجلسات تلقائيا", "ليعيد حساب زمن المراجعة", 0], ["كيف يتحقق مما بقي في ذاكرته؟", "ينظر إلى الملخص مباشرة", "يختبر نفسه بعد يوم دون ملاحظات", "يحصي عدد الصفحات التي قرأها", 1]]], ["شرح الفكرة بمثال", "يستطيع الطالب اختبار فهمه لفكرة دراسية بمحاولة شرحها بلغته وتطبيقها على موقف جديد. يبدأ بإغلاق الملخص وكتابة الفكرة في جملة واحدة. بعد ذلك يختار مثالا مختلفا عن المثال الوارد في المحاضرة ويبين كيف يوضح الفكرة. إذا تعثر، يرجع إلى الجزء الذي سبب له صعوبة ويكتب ملاحظة عنه. وفي اليوم التالي يحاول شرح الفكرة مرة أخرى بمثال آخر دون الرجوع إلى ملاحظاته.", [["بماذا يبدأ الطالب؟", "باختيار مثال من المحاضرة", "بإغلاق الملخص وكتابة الفكرة في جملة", "بقراءة الفصل كاملا", 1], ["أي مثال يختار بعد كتابة الفكرة؟", "مثالا مختلفا عن مثال المحاضرة", "مثال المحاضرة حرفيا", "مثالا لا صلة له بالمفهوم", 0], ["ماذا يبين بعد اختيار المثال؟", "من كتب المثال أولا", "عدد كلمات المثال", "كيف يوضح المثال الفكرة", 2], ["إلى أي جزء يرجع عند التعثر؟", "آخر صفحة في الملخص", "الجزء الذي سبب له صعوبة", "مقدمة المقرر دائما", 1], ["كيف يعيد المحاولة في اليوم التالي؟", "يشرح الفكرة بمثال آخر دون ملاحظات", "ينسخ المثال نفسه مع فتح الملخص", "يكتفي بتوقع درجته", 0]]]];
+const panel=document.getElementById('panel');
+let round,pred;
+function home(){
+  panel.innerHTML='<p>اقرأ الفقرة ثم توقع درجتك وأجب عن خمسة أسئلة. سجل نتيجتك في جدول المشروع.</p><button id="first">الجولة الأولى</button><button id="second">الجولة الثانية</button>';
+  document.getElementById('first').onclick=()=>read(0);
+  document.getElementById('second').onclick=()=>read(1);
+}
+function read(i){
+  round=rounds[i];
+  panel.innerHTML='<h2>'+round[0]+'</h2><p>'+round[1]+'</p><button id="done">أنهيت القراءة</button>';
+  document.getElementById('done').onclick=predict;
+}
+function predict(){
+  const values=Array.from({length:6},(_,i)=>'<option value="'+i+'">'+i+' من 5</option>').join('');
+  panel.innerHTML='<form><p><label for="pred">كم إجابة صحيحة تتوقع؟</label> <select id="pred" required><option value="">اختر درجتك</option>'+values+'</select></p><button>ثبّت توقعي وابدأ الاختبار</button></form>';
+  panel.querySelector('form').onsubmit=e=>{e.preventDefault();pred=Number(document.getElementById('pred').value);quiz();};
+}
+function quiz(){
+  panel.innerHTML='<h2>أجب من ذاكرتك</h2><form>'+round[2].map((q,i)=>'<fieldset><legend>'+(i+1)+'. '+q[0]+'</legend>'+q.slice(1,4).map((v,j)=>'<label class="option"><input type="radio" required name="q'+i+'" value="'+j+'"> '+v+'</label>').join('')+'</fieldset>').join('')+'<button>احسب نتيجتي</button></form>';
+  panel.querySelector('form').onsubmit=e=>{e.preventDefault();grade(new FormData(e.currentTarget));};
+}
+function grade(data){
+  let score=0;
+  const review=round[2].map((q,i)=>{
+    const correct=Number(data.get('q'+i))===q[4];
+    score+=Number(correct);
+    return '<li><strong>'+(correct?'صحيح':'يحتاج مراجعة')+'</strong> · '+q[0]+'<br>الإجابة الصحيحة: '+q[q[4]+1]+'</li>';
+  }).join('');
+  const gap=pred-score;
+  const direction=gap>0?'توقعت درجة أعلى من أدائك':gap<0?'توقعت درجة أقل من أدائك':'تطابق توقعك مع أدائك';
+  panel.innerHTML='<div class="result">توقعت '+pred+' من 5 · أحرزت '+score+' من 5 · الفارق المطلق '+Math.abs(gap)+'</div><p>'+direction+'. اكتب نتيجة الجولة في جدول المتابعة.</p><h2>مراجعة الإجابات</h2><ol>'+review+'</ol><button id="back">العودة لاختيار الجولة</button>';
+  document.getElementById('back').onclick=home;
+}
+home();
+</script></html>
